@@ -51,49 +51,32 @@ class Stack:
 
 S = Stack()
 S2 = Stack()
+
 inp = input('Enter Input : ').split(',')
 
 for i in inp:
     i = i.split()
 
     if i[0] == 'A':
-        if S.isEmpty():
-            S.push(i[1])
-        else:
-            for j in range(S.size()):
-                if int(i[1]) >= int(S.peek()):
-                    S.pop()
-            S.push(i[1])
+        S.push(i[1])
+        while not S2.isEmpty() and int(i[1]) >= int(S2.peek()):
+            S2.pop()
+        S2.push(i[1])
     elif i[0] == 'B':
-        if S.isEmpty():
-            print('0')
-        else:
-            print(S.size())
+        print(S2.size())
     elif i[0] == 'S':
         temp = []
-        for j in range(S.size()):
+        while not S2.isEmpty():
+            S2.pop()
+        while not S.isEmpty():
             h = int(S.pop())
             if h % 2 == 1:
-                h += 2
+                temp.append(h+2)
             else:
-                h -= 1
-            temp.append(str(h))
+                temp.append(h-1)
         temp.reverse()
-        for k in temp:
-            S2.push(k)
-            if not S.isEmpty() and int(k) >= int(S.peek()):
-                S.pop()
-            S.push(k)
-
-
-# Testcase :
-
-# Enter Input : A 4,A 3,B,S,B,A 5,A 6,B,S,B
-# 2
-# 1
-# 1
-# 2
-
-# Enter Input : A 3,A 4,B,S,S,S,S,S,B
-# 1
-# 2
+        for j in temp:
+            S.push(j)
+            while not S2.isEmpty() and int(j) >= int(S2.peek()):
+                S2.pop()
+            S2.push(j)
